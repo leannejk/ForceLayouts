@@ -19,3 +19,13 @@ h2 {
     font-size: 18px;
     margin-bottom: 40px;
 }
+
+.map{
+    fill: #618791;
+}
+
+.node{
+    r: 5px;
+    fill: #929600;
+    stroke: #565656;
+}
