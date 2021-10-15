@@ -29,14 +29,50 @@ d3.json("data/world-110m.json")
                 .attr("d", path);
             });
 
-            svg.selectAll("circle")
-                .data(dataAirports.nodes)
-                .enter().append("circle")
-                .attr("transform", function(d) {
-                    return "translate(" + projection([d.longitude, d.latitude]) + ")";
-                })
-                .attr("r", 5)
-                .attr("fill", "pink")
+        var simulation = d3.forceSimulation(dataAirports.nodes)
+            .force('link', d3.forceLink(dataAirports.links))
+
+
+        // ii) DRAW THE LINKS (SVG LINE)
+        var link = svg.selectAll(".link")
+            .data(dataAirports.links)
+            .enter()
+            .append("line")
+            .attr("class", "link")
+            .style("stroke", "grey");
+
+        // iii) DRAW THE NODES (SVG CIRCLE)
+        var node = svg.selectAll(".node")
+            .data(dataAirports.nodes)
+            .enter()
+            .append("circle")
+            .attr("class", "node")
+            .attr("r", 5)
+            .style("fill", "yellow")
+
+        simulation.on("tick", function() {
+
+            // Update node coordinates
+            node
+                .attr("cx", d => d.x  )
+                .attr("cy", d => d.y );
+
+            // Update edge coordinates
+            link
+                .attr("x1", d => d.source.x )
+                .attr("y1", d => d.source.y )
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y)
+        });
+
+            // svg.selectAll("circle")
+            //     .data(dataAirports.nodes)
+            //     .enter().append("circle")
+            //     .attr("transform", function(d) {
+            //         return "translate(" + projection([d.longitude, d.latitude]) + ")";
+            //     })
+            //     .attr("r", 5)
+            //     .attr("fill", "pink")
 
 
     });
